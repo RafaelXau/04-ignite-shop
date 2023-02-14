@@ -27,40 +27,53 @@ export const Product = styled('div', {
     objectFit: 'cover',
   },
 
-  footer: {
-    position: 'absolute',
-    bottom: '0.5rem',
-    left: '0.5rem',
-    right: '0.5rem',
-    padding: '2rem',
-    borderRadius: 6,
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-
-    transform: 'translateY(110%)',
-    opacity: 0,
-    transition: 'all 0.2s ease-in-out',
-
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100',
-    },
-
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300',
-    }
-  },
-
   '&:hover': {
     footer: {
       transform: 'translateY(0)',
       opacity: 1,
     }
+  }
+})
+
+export const ProductFooter = styled('footer', {
+  position: 'absolute',
+  bottom: '0.5rem',
+  left: '0.5rem',
+  right: '0.5rem',
+  padding: '1.25rem',
+  borderRadius: 6,
+  cursor: 'auto',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+
+  transform: 'translateY(110%)',
+  opacity: 0,
+  transition: 'all 0.2s ease-in-out',
+
+  strong: {
+    display: 'block',
+    fontSize: '$lg',
+    color: '$gray100'
+  },
+
+  span: {
+    marginTop: '0.25rem',
+    fontSize: '$xl',
+    fontWeight: 'bold',
+    color: '$green300',
+  },
+
+  button: {
+    backgroundColor: '$green300',
+    color: '$white',
+    lineHeight: 0,
+    padding: '0.75rem',
+    border: 0,
+    borderRadius: 6,
+    cursor: 'pointer'
   }
 })
