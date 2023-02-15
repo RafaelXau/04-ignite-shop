@@ -3,9 +3,8 @@ import Image from "next/image";
 import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages/product";
 import { stripe } from "@/lib/stripe"
 import Stripe from "stripe";
-import axios from "axios";
-import { useState } from "react";
 import Head from "next/head";
+import { ShoppingCartTrigger } from "@/components/ShoppingCartDialog";
 
 interface ProductProps {
   product: {
@@ -19,26 +18,6 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
-
-  async function handleBuyProduct() {
-    setIsCreatingCheckoutSession(true);
-
-    try {
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId
-      });
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      setIsCreatingCheckoutSession(false);
-
-      console.log(err)
-    }
-  }
-
   return (
     <>
       <Head>
@@ -60,7 +39,9 @@ export default function Product({ product }: ProductProps) {
           <span>{product.price}</span>
 
           <p>{product.description}</p>
-          <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Comprar Agora</button>
+          <ShoppingCartTrigger asChild>
+            <button>Colocar na sacola</button>
+          </ShoppingCartTrigger>
         </ProductDetails>
       </ProductContainer>
     </>

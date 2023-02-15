@@ -9,6 +9,7 @@ import Stripe from "stripe"
 import Link from "next/link"
 import Head from "next/head"
 import { Handbag } from "phosphor-react"
+import { ShoppingCartTrigger } from "@/components/ShoppingCartDialog"
 
 interface HomeProps {
   products: {
@@ -47,9 +48,9 @@ export default function Home(props: HomeProps) {
                   <span>{product.price}</span>
                 </div>
 
-                <button onClick={() => alert(1)}>
+                <ShoppingCartTrigger>
                   <Handbag weight="bold" size={32} />
-                </button>
+                </ShoppingCartTrigger>
               </ProductFooter>
             </Product>
           ))
