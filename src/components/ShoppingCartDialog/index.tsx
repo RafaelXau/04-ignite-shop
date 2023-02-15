@@ -6,7 +6,7 @@ import { CloseButton, DialogContent, DialogFooter, DialogTitle, Overlay, Product
 import thumbnail from '../../assets/camisetas/1.png';
 import Image from 'next/image';
 
-function shoppingCartDialog({ children, ...props }: any, forwardedRef: any) {
+function shoppingCartContent({ children, ...props }: any, forwardedRef: any) {
   return (
     <Dialog.Portal>
       <Overlay />
@@ -52,6 +52,6 @@ function shoppingCartDialog({ children, ...props }: any, forwardedRef: any) {
   )
 }
 
-export const ShoppingCartDrawer = forwardRef(shoppingCartDialog);
-export const ShoppingCartRoot = Dialog.Root;
+export const ShoppingCartDrawer = forwardRef(shoppingCartContent);
+export const ShoppingCartDialog = Dialog.Root;
 export const ShoppingCartTrigger = Dialog.Trigger;
