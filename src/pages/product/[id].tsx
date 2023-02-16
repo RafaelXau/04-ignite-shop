@@ -5,19 +5,21 @@ import { stripe } from "@/lib/stripe"
 import Stripe from "stripe";
 import Head from "next/head";
 import { ShoppingCartTrigger } from "@/components/ShoppingCartDialog";
+import { Product as ProductType } from "@/reducers/ShoppingCartReducer/reducer";
+import { ShoppingCartContext } from "@/contexts/ShoppingCartContext";
+import { useContext } from "react";
+import { priceFormatter } from "@/utils/formatter";
 
 interface ProductProps {
-  product: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-    description: string;
-    defaultPriceId: string;
-  }
+  product: ProductType
 }
 
 export default function Product({ product }: ProductProps) {
+  const { addProductToCart } = useContext(ShoppingCartContext)
+
+  function handleAddProductToCart() {
+    addProductToCart(product)
+  }
   return (
     <>
       <Head>
@@ -36,11 +38,13 @@ export default function Product({ product }: ProductProps) {
 
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{priceFormatter.format(product.price)}</span>
 
           <p>{product.description}</p>
           <ShoppingCartTrigger asChild>
-            <button>Colocar na sacola</button>
+            <button onClick={handleAddProductToCart}>
+              Colocar na sacola
+            </button>
           </ShoppingCartTrigger>
         </ProductDetails>
       </ProductContainer>
@@ -70,10 +74,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL'
-        }).format(price.unit_amount! / 100),
+        price: price.unit_amount! / 100,
         description: product.description,
         defaultPriceId: price.id
       }

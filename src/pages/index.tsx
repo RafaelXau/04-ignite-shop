@@ -1,32 +1,37 @@
+import { useContext } from "react"
 import { GetStaticProps } from "next"
+import Link from "next/link"
+import Head from "next/head"
+import Stripe from "stripe"
 import Image from "next/image"
 import { useKeenSlider } from "keen-slider/react"
 import { HomeContainer, Product, ProductFooter } from "@/styles/pages/home"
+import { Handbag } from "phosphor-react"
+
+import { stripe } from "@/lib/stripe"
+import { ShoppingCartTrigger } from "@/components/ShoppingCartDialog"
+import { priceFormatter } from "@/utils/formatter"
+import { ShoppingCartContext } from "@/contexts/ShoppingCartContext"
+import { Product as ProductType } from "@/reducers/ShoppingCartReducer/reducer"
 
 import 'keen-slider/keen-slider.min.css'
-import { stripe } from "@/lib/stripe"
-import Stripe from "stripe"
-import Link from "next/link"
-import Head from "next/head"
-import { Handbag } from "phosphor-react"
-import { ShoppingCartTrigger } from "@/components/ShoppingCartDialog"
 
 interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-  }[]
+  products: ProductType[]
 }
 
 export default function Home(props: HomeProps) {
+  const { addProductToCart } = useContext(ShoppingCartContext)
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
     }
   });
+
+  function handleAddProductToCart(product: ProductType) {
+    addProductToCart(product)
+  }
 
   return (
     <>
@@ -45,10 +50,10 @@ export default function Home(props: HomeProps) {
               <ProductFooter>
                 <div>
                   <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <span>{priceFormatter.format(product.price)}</span>
                 </div>
 
-                <ShoppingCartTrigger>
+                <ShoppingCartTrigger onClick={() => handleAddProductToCart(product)}>
                   <Handbag weight="bold" size={32} />
                 </ShoppingCartTrigger>
               </ProductFooter>
@@ -72,10 +77,9 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(price.unit_amount! / 100)
+      price: price.unit_amount! / 100,
+      description: product.description,
+      defaultPriceId: price.id
     }
   });
 

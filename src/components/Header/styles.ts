@@ -29,22 +29,24 @@ export const ShoppingCartButton = styled('button', {
   '&:hover': {
     color: '$gray300'
   },
-
-  span: {
-    backgroundColor: '$green500',
-    width: 24,
-    height: 24,
-    right: -7,
-    top: -7,
-    position: 'absolute',
-    borderRadius: '50%',
-    border: '3px solid $gray900',
-
-    color: '$white',
-    fontSize: '$sm',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
 })
+
+const ProductCount = styled('span', {
+  backgroundColor: '$green500',
+  width: 24,
+  height: 24,
+  right: -7,
+  top: -7,
+  position: 'absolute',
+  borderRadius: '50%',
+  border: '3px solid $gray900',
+
+  color: '$white',
+  fontSize: '$sm',
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+})
+
+export default ProductCount;

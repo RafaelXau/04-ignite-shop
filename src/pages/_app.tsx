@@ -1,22 +1,28 @@
 import type { AppProps } from 'next/app'
 
-import { ShoppingCartDrawer, ShoppingCartDialog } from '@/components/ShoppingCartDialog';
+import { ShoppingCartDialog } from '@/components/ShoppingCartDialog';
 import { globalStyles } from '@/styles/global'
 import { Container } from '@/styles/pages/app';
 import { Header } from '@/components/Header';
+import { ShoppingCartContextProvider } from '@/contexts/ShoppingCartContext';
+import dynamic from 'next/dynamic';
+
+const ShoppingCartDrawer = dynamic(() => import('@/components/ShoppingCartDialog'), { ssr: false })
 
 globalStyles();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ShoppingCartDialog>
-      <Container>
-        <Header />
+    <ShoppingCartContextProvider>
+      <ShoppingCartDialog>
+        <Container>
+          <Header />
 
-        <Component {...pageProps} />
-      </Container>
+          <Component {...pageProps} />
+        </Container>
 
-      <ShoppingCartDrawer />
-    </ShoppingCartDialog>
+        <ShoppingCartDrawer />
+      </ShoppingCartDialog>
+    </ShoppingCartContextProvider>
   )
 }
